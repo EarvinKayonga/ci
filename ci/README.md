@@ -1,2 +1,0 @@
-# ci
-Testing Drone CI
