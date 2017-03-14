@@ -1,13 +1,14 @@
-version: '3'
+version: '2'
 
 services:
-  drone-server:
+  dev.earvinkayonga.com:
     image: drone/drone:0.5
     ports:
-      - 80:8000
+      - 8000:8000
     volumes:
       - ./drone:/var/lib/drone/
-      - ./etc/letsencrypt/live/:/etc/letsencrypt/live/:ro
+      - /etc/letsencrypt/live/dev.earvinkayonga.com/fullchain.pem:/certs/fullchain.pem:ro
+      - /etc/letsencrypt/live/dev.earvinkayonga.com/privkey.pem:/certs/privkey.pem:ro
     restart: always
     environment:
       - DRONE_OPEN=true
@@ -27,20 +28,20 @@ services:
     image: drone/drone:0.5
     command: agent
     restart: always
-    depends_on: [ drone-server ]
+    depends_on: [ dev.earvinkayonga.com ]
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      - DRONE_SERVER=ws://drone-server:8000/ws/broker
+      - DRONE_SERVER=wss://dev.earvinkayonga.com:8000/ws/broker
       - DRONE_SECRET=${DRONE_SECRET}
 
   drone-agent2:
     image: drone/drone:0.5
     command: agent
     restart: always
-    depends_on: [ drone-server ]
+    depends_on: [ dev.earvinkayonga.com ]
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      - DRONE_SERVER=ws://drone-server:8000/ws/broker
+      - DRONE_SERVER=wss://dev.earvinkayonga.com:8000/ws/broker
       - DRONE_SECRET=${DRONE_SECRET}
