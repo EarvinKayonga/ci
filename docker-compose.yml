@@ -11,9 +11,16 @@ services:
     environment:
       - DRONE_OPEN=true
       - DRONE_GITHUB=true
+      - DRONE_GITHUB_CONTEXT=continuous-integration/drone
+      - DRONE_GITHUB_PRIVATE_MODE=true
+      - DRONE_GITHUB_MERGE_REF=true
+      - DRONE_CACHE_TTY=1m
+      - DRONE_SERVER_CERT=${DRONE_SERVER_CERT}
+      - DRONE_SERVER_KEY=${DRONE_SERVER_KEY}
       - DRONE_GITHUB_CLIENT=${DRONE_GITHUB_CLIENT}
       - DRONE_GITHUB_SECRET=${DRONE_GITHUB_SECRET}
       - DRONE_SECRET=${DRONE_SECRET}
+      - DRONE_ADMIN=${DRONE_ADMIN}
 
   drone-agent1:
     image: drone/drone:0.5
