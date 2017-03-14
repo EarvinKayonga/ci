@@ -1,3 +1,5 @@
+include .env_make
+
 .PHONY: start stop
 
 start:
